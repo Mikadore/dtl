@@ -22,6 +22,7 @@ add_executable(
 target_link_libraries(
   tests
   gtest_main
+  dtl
 )
 
 target_include_directories(
@@ -33,3 +34,7 @@ target_include_directories(
 include(GoogleTest)
 gtest_discover_tests(tests)
 
+# Tests whole programs behaving correctly,
+# mostly done for utilities which cannot
+# be tested with gtest. Requires Python
+add_subdirectory(programs)

@@ -10,7 +10,7 @@ TEST(typeops, is_same)
     ASSERT_TRUE((dtl::is_same<int, my_int>));
 
     ASSERT_FALSE((dtl::is_same<int, int &>));
-    ASSERT_FALSE((dtl::is_same<int, const int>));
+    ASSERT_FALSE((dtl::is_same<int, int const>));
     ASSERT_FALSE((dtl::is_same<int, int *>));
     ASSERT_FALSE((dtl::is_same<int, int[]>));
     ASSERT_FALSE((dtl::is_same<int[], int>));
@@ -21,9 +21,9 @@ TEST(typeops, remove_reference) {
     ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int>, int>));
     ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int&>, int>));
     ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int&&>, int>));
-    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<const int>, const int>));
-    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<const int&>, const int>));
-    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<const int&&>, const int>));
+    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int const>, int const>));
+    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int const&>, int const>));
+    ASSERT_TRUE((dtl::is_same<dtl::remove_reference<int const&&>, int const>));
 }
 
 TEST(typeops, is_lvalue) {

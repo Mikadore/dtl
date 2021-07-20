@@ -1,4 +1,6 @@
+#pragma once
 #include <dtl/integral.hpp>
+#include <dtl/concepts.hpp>
 
 namespace dtl {
     /**
@@ -8,9 +10,10 @@ namespace dtl {
      *      - operator[](usize N) -> T&: yield the Nth element, N is always < size()
      *      - begin() -> {random access iterator of T}: yield the front iterator
      *      - end() -> {random access iterator of T}: yield a past-the-end iterator
+     *  @tparam T the type of the elements in the range
      */
     template<typename Range, typename T>
     concept range = requires (Range& r) {
-        r[]
+        { r.size() } -> dtl::same<usize>;
     };
 }

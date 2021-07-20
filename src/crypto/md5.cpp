@@ -20,5 +20,5 @@ namespace dtl
     constexpr auto H(u32 x, u32 y, u32 z) -> u32 { return x ^ y ^ z; }
     constexpr auto I(u32 x, u32 y, u32 z) -> u32 { return y ^ (x | ~z); }
 
-     
+    
 }

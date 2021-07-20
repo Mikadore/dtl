@@ -16,18 +16,18 @@ namespace dtl
             template <usize N>
             constexpr decltype(auto) reverse_get()
             {
-                if constexpr (N == sizeof...(Rest))
-                {
+                if constexpr (N == sizeof...(Rest)) {
                     return current;
-                }
-                else
-                {
+                } else {
                     return tuple_impl<Rest...>::template reverse_get<N>();
                 }
             }
 
-        public:
-            tuple_impl(First first, Rest... rest) : current(first), tuple_impl<Rest...>(rest...) {}
+          public:
+            tuple_impl(First first, Rest... rest)
+                : current(first), tuple_impl<Rest...>(rest...)
+            {
+            }
 
             template <usize N>
             constexpr decltype(auto) get()
@@ -52,7 +52,7 @@ namespace dtl
                 return last;
             }
 
-        public:
+          public:
             tuple_impl(T last) : last(last) {}
 
             template <usize N>
@@ -62,24 +62,41 @@ namespace dtl
                 return last;
             }
 
-            consteval decltype(auto) operator[](usize index) { return get<index>(); }
+            consteval decltype(auto) operator[](usize index)
+            {
+                return get<index>();
+            }
         };
     }
 
     template <typename... Types>
-    class tuple : public impl::tuple_impl<Types...>
+    class tuple :
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+        private impl::tuple_impl<Types...>
+#endif
     {
-    public:
-        tuple(Types &&...args) : impl::tuple_impl<Types...>(dtl::forward<Types>(args)...) {}
+      public:
+        tuple(Types&&... args)
+            : impl::tuple_impl<Types...>(dtl::forward<Types>(args)...)
+        {
+        }
+        template <usize N>
+        decltype(auto) get()
+        {
+            return impl::tuple_impl<Types...>::template get<N>();
+        }
     };
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
     template <>
     class tuple<>
     {
     };
+#endif
 
     template <typename... Types>
-    [[nodiscard]] auto size(const tuple<Types...> &) -> usize {
+    [[nodiscard]] auto size(const tuple<Types...>&) -> usize
+    {
         return sizeof...(Types);
     }
 
